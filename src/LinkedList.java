@@ -1,112 +1,59 @@
-import java.util.Collections.*;
-import java.util.LinkedList;
+import java.util.Objects;
 
-public class LL {
-    private int size;
-    Node head;
-    LL(){
-       this.size =0;
+/* Assume that a singly linked list is implemented with a header node but no tail node. write a class that includes methods to perform
+1) Return the size of the linked list.
+2) Print the linked list.
+3) Test if the value X is contained in the list or not.
+4) Add a value X if it is not contained, at the end.
+5) Remove the value X if it is contained in the linked list.
+6) Implement this by using the generics concept.
+7) Can contain byte, short, integer, double, float.*/
+class Node <T>{
+    T data;
+    Node<T> next;
+    public Node(T data){
+        this.data = data;
     }
-    public int getSize(){
+}
+
+public class LinkedList <T extends Integer,Float,Byte,Short,Double> {
+    Node<T> head;
+    public void add(T data){
+        Node<T> newNode = new Node(data);
+        Node<T> temp = head;
+        while(temp.next!=null){
+            if(Objects.equals(temp.data, data)){
+                System.out.println("Value found in the list");
+                return;
+            }
+        }
+        temp.next = newNode;
+    }
+    public int size(){
+        Node<T> temp =head;
+        int size = 0;
+        while(temp!=null){
+            size++;
+            temp = temp.next;
+        }
         return size;
     }
-    class Node{
-        String data;
-        Node next;
-
-        Node (String data){
-            this.data = data;
-            this.next = null;
-            size++;
-        }
-    }
-    //add - first, last
-    public void addFirst(String data){
-        Node newNode = new Node(data);
-        if(head == null){
-            head = newNode;
-            return;
-        }
-        newNode.next = head;
-        head = newNode;
-    }
-    public void addLast(String data){
-        Node newNode = new Node(data);
-        if(head == null){
-            head = newNode;
-            return;
-        }
-        Node curr = head;
-        while(curr.next != null){
-            curr = curr.next;
-        }
-        curr.next = newNode;
-    }
-    //printlist
     public void printList(){
-        if(head == null) {
-            System.out.println("List is empty");
-            return;
+        Node<T> temp = head;
+        while(temp.next!=null){
+            System.out.print(temp.data+"->");
+            temp = temp.next;
         }
-        Node currNode = head;
-        while(currNode != null){
-            System.out.print(currNode.data + " -> ");
-            currNode = currNode.next;
-        }
-        System.out.print(" NULL");
-        System.out.println();
+        System.out.print(temp.data);
     }
-    //delete first
-    public void deleteFirst(){
-        if(head == null) {
-            System.out.println("List is empty");
-            return;
+    public void remove(T data) {
+        Node<T> temp = head;
+        while (temp.next != null && !Objects.equals(temp.data, data)) {
+            temp = temp.next;
         }
-        size--;
-        head = head.next;
-    }
-    public void deleteLast(){
-        if(head==null){
-            System.out.println("List empty");
-            return;
+        if (temp.next == null) System.out.println("Data not found");
+        else if(Objects.equals(temp.data, data)){
+            temp= temp.next;
         }
-        size--;
-        if(head.next == null){
-            head = null;
-            return;
-        }
-        Node secondLast = head;
-        Node last = head.next;
-        while(last.next != null){
-            last = last.next;
-            secondLast = secondLast.next;
-        }
-        secondLast.next = null;
-    }
-    public static void main(String[] args) {
-        LL list = new LL();
-        list.addFirst("a");
-        list.addFirst("is");
-        list.addLast("List");
-        list.addFirst("This");
-        list.printList();
-        System.out.println(list.size);
-        list.deleteFirst();
-        list.printList();
-        System.out.println(list.size);
-        list.deleteLast();
-        System.out.println(list.size);
-        list.printList();
-        LinkedList<String> ListC = new LinkedList<String>();
-        ListC.addFirst("a");
-        ListC.addFirst("is");
-        ListC.addLast("List");
-       ListC.addFirst("This");
-        System.out.println(ListC);
-        System.out.println(ListC.size());
-        for( String i : ListC){
-            System.out.print(i + " -> ");
-        }
-        System.out.println("NULL");
     }
 }
